@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: springboot-study
+  profiles:
+    active: dev
+
+jasypt:
+  encryptor:
+    password: fancv.com
+
+
+
+# Enable response compression
+
+
+management:
+  port: 54001
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
