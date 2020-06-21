@@ -11,6 +11,11 @@ package com.fancv.jvm;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * -XX:+HeapDumpOnOutOfMemoryError
+ * -Xmx200m
+ * -Xmx300m
+ */
 public class MyOutofMemory {
 
     public static void main(String args[]) {
