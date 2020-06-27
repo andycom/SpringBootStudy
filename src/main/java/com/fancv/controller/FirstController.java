@@ -1,8 +1,10 @@
 package com.fancv.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.fancv.AnnotationDemo.PrintString;
+import com.fancv.DTO.TestVo;
+import io.micrometer.core.instrument.util.JsonUtils;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @version 1.0
@@ -14,8 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("first")
 public class FirstController {
 
-    @GetMapping("test")
-    String test() {
+    @PostMapping("test")
+    @ApiOperation("测试")
+    String test(@PrintString @RequestParam String a, @PrintString @RequestBody TestVo t) {
+
+        System.out.println(a);
+        System.out.println(JsonUtils.prettyPrint(a));
+        System.out.println(JsonUtils.prettyPrint(t.toString()));
+
+
         return "ok";
     }
 

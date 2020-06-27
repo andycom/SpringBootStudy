@@ -25,5 +25,10 @@ public class TestVo extends CheckDto {
         this.test = test;
     }
 
-
+    @Override
+    public String toString() {
+        return "TestVo{" +
+                "test='" + test + '\'' +
+                '}';
+    }
 }
