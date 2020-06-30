@@ -41,9 +41,12 @@ public class ParamCheckAspect {
             Parameter parameter = parameters[i];
             //Java自带基本类型的参数（例如Integer、String）的处理方式
             if (isPrimite(parameter.getType())) {
-                PrintString notNull = parameter.getAnnotation(PrintString.class);
-                if (notNull != null && args[i] == null) {
-                    throw new RuntimeException(parameter.toString() + notNull.name());
+                PrintString printString = parameter.getAnnotation(PrintString.class);
+                if (printString != null && args[i] == null) {
+                    throw new RuntimeException(parameter.toString() + printString.name());
+                }
+                if (printString.name().equals("p")) {
+                    System.out.println("拦截器打印：" + args[i]);
                 }
                 //TODO
                 continue;
@@ -63,11 +66,11 @@ public class ParamCheckAspect {
             for (Field field : declaredFields) {
                 field.setAccessible(true);
                 //校验标有@NotNull注解的字段
-                PrintString notNull = field.getAnnotation(PrintString.class);
-                if (notNull != null) {
+                PrintString printString = field.getAnnotation(PrintString.class);
+                if (printString != null) {
                     Object fieldValue = field.get(arg);
                     if (fieldValue == null) {
-                        throw new RuntimeException(field.getName() + notNull.name());
+                        throw new RuntimeException(field.getName() + printString.name());
                     }
                 }
                 //校验标有@NotEmpty注解的字段，NotEmpty只用在String类型上

@@ -18,7 +18,7 @@ public class FirstController {
 
     @PostMapping("test")
     @ApiOperation("测试")
-    String test(@PrintString @RequestParam String a, @PrintString @RequestBody TestVo t) {
+    String test(@PrintString(name = "p") @RequestParam String a, @PrintString(name = "p") @RequestBody TestVo t) {
 
         System.out.println(a);
         System.out.println(JsonUtils.prettyPrint(a));
