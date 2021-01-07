@@ -26,6 +26,9 @@ import java.lang.reflect.Parameter;
 import java.util.Arrays;
 
 
+/**
+ * @author hamish-wu
+ */
 @Aspect
 @Component
 public class ParamCheckAspect {
@@ -42,10 +45,7 @@ public class ParamCheckAspect {
             //Java自带基本类型的参数（例如Integer、String）的处理方式
             if (isPrimite(parameter.getType())) {
                 PrintString printString = parameter.getAnnotation(PrintString.class);
-                if (printString != null && args[i] == null) {
-                    throw new RuntimeException(parameter.toString() + printString.name());
-                }
-                if (printString.name().equals("p")) {
+                if (printString != null && args[i] != null) {
                     System.out.println("拦截器打印：" + args[i]);
                 }
                 //TODO
