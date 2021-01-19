@@ -42,6 +42,7 @@ public class QueueSystemSacn {
                     System.out.println("已经扫描文件数：" + dqFile2.size());
                     a.getAndIncrement();
 
+                    Thread.currentThread().stop();
                     break;
                 }
             }
