@@ -1,48 +1,51 @@
-package com.fancv;
+package com.fancv.MyThreads.systemScan;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import lombok.SneakyThrows;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * Java 多线程扫描程序
- * 按照文件大小、创建时间筛选文件 名称列表
- */
-public class ScanSystem {
+public class QueueSystemSacn {
 
-
-    public static List<File> MyfileList = new CopyOnWriteArrayList<File>();
-
-    public static List<File> MyFloder = new CopyOnWriteArrayList<>();
 
     public static Deque<File> dqFile = new LinkedBlockingDeque<>();
     public static Deque<File> dqFile2 = new LinkedBlockingDeque<>();
     public static Deque<File> dqFloder = new LinkedBlockingDeque<>();
+    public static AtomicInteger a = new AtomicInteger(0);
 
 
     static class ScanRunnable implements Runnable {
         Deque<File> dqFile = new LinkedBlockingDeque<>();
+        private CyclicBarrier cyclicBarrier;
 
-        public ScanRunnable(Deque<File> dqFile) {
+        public ScanRunnable(Deque<File> dqFile, CyclicBarrier cyclicBarrier) {
             this.dqFile = dqFile;
+            this.cyclicBarrier = cyclicBarrier;
         }
 
+        @SneakyThrows
         @Override
         public void run() {
-            while (Boolean.TRUE) {
+            while (true) {
                 if (!dqFile.isEmpty()) {
                     File firstF = dqFile.pollFirst();
                     fileParser(firstF);
                     dqFile2.add(firstF);
                 } else {
-                    Thread.yield();
-                    dqFile2.size();
+                    Thread.sleep(1000);
+                    cyclicBarrier.await();
+                    System.out.println("线程名称：" + Thread.currentThread().getName());
                     System.out.println("已经扫描文件数：" + dqFile2.size());
+                    a.getAndIncrement();
+
+                    break;
                 }
             }
+            System.out.println("动用线程数:" + a);
         }
     }
 
@@ -61,29 +64,6 @@ public class ScanSystem {
         return sdf.format(new Date(seconds));
     }
 
-
-    public static List<File> fileLists(List<File> innerFileList) {
-        List<File> FileList = new ArrayList<>(8);
-        for (File file : innerFileList) {
-            if (file.isDirectory()) {
-                dqFloder.add(file);
-                Optional<File[]> assOP = Optional.ofNullable(file.listFiles());
-                if (assOP.isPresent()) {
-                    List<File> StringList = Arrays.asList(file.listFiles());
-                    FileList.addAll(fileLists(StringList));
-                } else {
-                    System.out.println("文件为空 名称信息：" + file.getName());
-                }
-            } else {
-                MyfileList.add(file);
-                System.out.println("文件路径：" + file.getAbsolutePath());
-                System.out.println("文件大小：" + file.getTotalSpace() / 1024 / 1024 + " mb");
-                System.out.println("文件最后修改时间：" + timeStamp2Date(file.lastModified()));
-                dqFile.add(file);
-            }
-        }
-        return FileList;
-    }
 
     public static void fileParser(File innerFile) {
         if (innerFile.isDirectory()) {
@@ -132,23 +112,26 @@ public class ScanSystem {
 
         }
 
+        //google 提供ThreadFactory 但是没有继承接口
+
+
         ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("demo-pool-%d").build();
-        ExecutorService singleThreadPool = new ThreadPoolExecutor(8, 8,
+        ExecutorService singleThreadPool = new ThreadPoolExecutor(12, 15,
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<Runnable>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
+        int threadCount = 7;
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(threadCount);
+        for (int i = 0; i < threadCount; i++) {
+            System.out.println("创建工作线程" + i);
+            singleThreadPool.execute(new ScanRunnable(dqFile, cyclicBarrier));
+        }
 
-        singleThreadPool.execute(new ScanRunnable(dqFile));
-        singleThreadPool.execute(new ScanRunnable(dqFile));
-        singleThreadPool.execute(new ScanRunnable(dqFile));
-        singleThreadPool.execute(new ScanRunnable(dqFile));
-        singleThreadPool.execute(new ScanRunnable(dqFile));
-        singleThreadPool.execute(new ScanRunnable(dqFile));
-        singleThreadPool.execute(new ScanRunnable(dqFile));
-        singleThreadPool.execute(new ScanRunnable(dqFile));
 
         singleThreadPool.shutdown();
 
+
+        System.out.println("扫描结束！！！");
 
     }
     //TODO
