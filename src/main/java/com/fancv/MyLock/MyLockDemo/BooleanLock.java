@@ -75,16 +75,17 @@ public class BooleanLock implements Lock {
     @Override
     public Boolean TryLock() throws InterruptedException {
         synchronized (this) {
-
             if (locked) {
+                //如果锁被占用
                 blockedList.add(currentThread());
                 this.wait();
-                return Boolean.TRUE;
+                return Boolean.FALSE;
             } else {
                 blockedList.remove(currentThread());
+                //锁没有被占用
                 this.locked = true;
                 this.currentThread = currentThread();
-                return Boolean.FALSE;
+                return Boolean.TRUE;
             }
 
 

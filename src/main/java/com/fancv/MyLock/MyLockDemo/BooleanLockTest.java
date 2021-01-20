@@ -28,7 +28,7 @@ public class BooleanLockTest {
                 System.out.println(Thread.currentThread() + " get the lock!  开始工作 sleep: " + randomInt);
                 TimeUnit.SECONDS.sleep(randomInt);
             } else {
-                System.out.println(Thread.currentThread() + " 获取锁失败 线程不工作 直接结束");
+                System.out.println(Thread.currentThread() + " 获取锁失败 线程不工作 放入重试队列 再消费");
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
