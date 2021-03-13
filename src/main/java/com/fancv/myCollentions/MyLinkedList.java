@@ -20,6 +20,7 @@ public class MyLinkedList {
         a.addFirst("C");
         a.addFirst("D");
 
+
         Iterator<String> ite = a.iterator();
         while (ite.hasNext()) {
             String s = (ite.next());
@@ -36,6 +37,7 @@ public class MyLinkedList {
         Collections.sort(a);
 
         System.out.println(a);
+
     }
 }
 

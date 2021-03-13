@@ -2,6 +2,7 @@ package com.fancv.lamda.anonymousFunction;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.stream.Stream;
 
 public class lambda_Comparator {
 
@@ -21,9 +22,14 @@ public class lambda_Comparator {
 
     public static void main(String[] args) {
         String[] array = {"abc", "ab", "abcd"};
+        String[] arrayb;
         System.out.println(Arrays.toString(array));
+
+        arrayb = Stream.of("2adbc", "1ab", "abcddd").toArray(String[]::new);
+        System.out.println(Arrays.toString(arrayb));
         Arrays.sort(array, newComparator_1()); // 方式一
         Arrays.sort(array, (a, b) -> b.length() - a.length());//更简单的方式
         System.out.println(Arrays.toString(array));
+
     }
 }
