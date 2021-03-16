@@ -17,16 +17,47 @@ public class MyIOExample {
         Boolean fileAppend = Boolean.TRUE;
 
         /* out(true);*/
-
-        in();
+        fileReader();
+        /*      in();*/
 
     }
+
+
+    /**
+     * 按字符读取
+     */
+    private static void fileReader() {
+
+
+        File file = new File("D:/new.text");
+        if (file.exists()) {
+            try {
+                FileReader fileReader = new FileReader(file);
+
+                if (fileReader.ready()) {
+
+                    char cbuf[] = new char[128];
+                    while (fileReader.read(cbuf) > 0) {
+                        String result = new String(cbuf);
+                        System.out.print(result);
+                    }
+
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+
+            }
+
+        }
+    }
+
 
     /**
      * 按字符读取
      */
     private static void in() {
-        File outPutFile = new File("D:/new.text");
+        File outPutFile = new File("D:/new.txt");
         FileInputStream fileInputStream = null;
         if (outPutFile.exists()) {
             try {
@@ -35,10 +66,9 @@ public class MyIOExample {
                 fileInputStream = new FileInputStream(outPutFile);
 
                 while (fileInputStream.available() > 0) {
-                    byte b[] = new byte[256000];
+                    byte b[] = new byte[2560];
                     int s = fileInputStream.read(b);
-                    String result = new String(b);
-                    System.out.print(result);
+
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
