@@ -30,7 +30,7 @@ public class QueueSystemSacn {
         @SneakyThrows
         @Override
         public void run() {
-            while (true) {
+            while (!Thread.currentThread().isInterrupted()) {
                 if (!dqFile.isEmpty()) {
                     File firstF = dqFile.pollFirst();
                     fileParser(firstF);
@@ -42,7 +42,7 @@ public class QueueSystemSacn {
                     System.out.println("已经扫描文件数：" + dqFile2.size());
                     a.getAndIncrement();
 
-                    Thread.currentThread().stop();
+                    Thread.currentThread().interrupt();
                     break;
                 }
             }
@@ -121,7 +121,7 @@ public class QueueSystemSacn {
         ExecutorService singleThreadPool = new ThreadPoolExecutor(12, 15,
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<Runnable>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
-        int threadCount = 7;
+        int threadCount = 3;
         CyclicBarrier cyclicBarrier = new CyclicBarrier(threadCount);
         for (int i = 0; i < threadCount; i++) {
             System.out.println("创建工作线程" + i);
