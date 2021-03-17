@@ -1,6 +1,7 @@
 package com.fancv.myIO;
 
 import java.io.*;
+import java.util.Scanner;
 
 /**
  * java  IO
@@ -16,10 +17,26 @@ public class MyIOExample {
     public static void main(String[] args) {
         Boolean fileAppend = Boolean.TRUE;
 
-        /* out(true);*/
+        /*  out(true);*/
         fileReader();
+        /* MyScaner();*/
         /*      in();*/
 
+    }
+
+    /**
+     * scaner
+     */
+    private static void MyScaner() {
+        try {
+            File file = new File("D:/data/springStudy/new.txt");
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                System.out.println(scanner.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -29,16 +46,16 @@ public class MyIOExample {
     private static void fileReader() {
 
 
-        File file = new File("D:/new.text");
+        File file = new File("D:/data/springStudy/new.txt");
         if (file.exists()) {
             try {
                 FileReader fileReader = new FileReader(file);
 
                 if (fileReader.ready()) {
-
-                    char cbuf[] = new char[128];
-                    while (fileReader.read(cbuf) > 0) {
-                        String result = new String(cbuf);
+                    char cbuf[] = new char[1280];
+                    int len;
+                    while ((len = fileReader.read(cbuf)) != -1) {
+                        String result = new String(cbuf, 0, len);
                         System.out.print(result);
                     }
 
@@ -81,7 +98,7 @@ public class MyIOExample {
 
 
     private static void out(Boolean fileAppend) {
-        File outPutFile = new File("D:/new.text");
+        File outPutFile = new File("D:/data/springStudy/new.txt");
         FileOutputStream fileOutputStream = null;
         if (outPutFile.exists()) {
             try {
@@ -89,7 +106,7 @@ public class MyIOExample {
                 //是否追加的方式写入
                 fileOutputStream = new FileOutputStream(outPutFile, fileAppend);
 
-                for (int i = 0; i < 1000000; i++) {
+                for (int i = 0; i < 100000000; i++) {
                     StringBuilder lineb = new StringBuilder(" hello word ").append(String.valueOf(i)).append("\n");
                     fileOutputStream.write(lineb.toString().getBytes());
                     System.out.println();
