@@ -3,7 +3,6 @@
  *  项目名称:SpringBootStudy   SpringBootStudy
  *  文件名称:AnnotionTest.java
  *  Date:20-6-27 下午12:14
- *  Author: xixin
  */
 
 package com.fancv.AnnotationDemo;
@@ -12,6 +11,9 @@ import com.fancv.DTO.TestVo;
 
 import static com.fancv.Utils.UtilTools.checkFiled;
 
+/**
+ * @author hamish-wu
+ */
 public class AnnotionTest {
 
     public static void main(String args[]) {

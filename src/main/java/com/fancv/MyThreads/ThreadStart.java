@@ -1,5 +1,9 @@
 package com.fancv.MyThreads;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+
+import java.util.concurrent.*;
+
 /**
  * @version 1.0
  * @Author hamish-wu
@@ -25,6 +29,15 @@ public class ThreadStart {
 
         Thread helloThread = new Thread(new HelloRunnable());
         helloThread.start();
+
+        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
+                .setNameFormat("demo-pool-%d").build();
+        ExecutorService singleThreadPool = new ThreadPoolExecutor(4, 8,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
+
+        singleThreadPool.execute(new HelloRunnable());
+        singleThreadPool.shutdown();
 
     }
 
@@ -54,6 +67,12 @@ class HelloThread extends Thread {
  * java 实现runnable  接口
  */
 class HelloRunnable implements Runnable {
+
+
+    public HelloRunnable() {
+
+    }
+
     @Override
     public void run() {
         System.out.println("hello implement runnable");
