@@ -24,6 +24,12 @@ public class MyIOExample {
 
     }
 
+
+    private static void RandomAccessFile()
+    {
+
+    }
+
     /**
      * scaner
      */
