@@ -15,7 +15,7 @@ public class CallableParameter {
 
     public static CopyOnWriteArrayList<String> arr = new CopyOnWriteArrayList<String>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         arr.add("a");
         arr.add("b");
         arr.add("c");
@@ -28,10 +28,11 @@ public class CallableParameter {
         for (int i = 0; i < 1000000; i++) {
 
             if (i % 10 == 2) {
-                Callable<Integer> myCallable = new MyCallable(i);    // 创建MyCallable对象
+                Callable<Integer> myCallable = new MyCallable(i);// 创建MyCallable对象
+                int s = myCallable.call();
                 ft = new FutureTask<Integer>(myCallable); //使用FutureTask来包装MyCallable对象
                 System.out.println(Thread.currentThread().getName() + " " + i);
-                Thread thread = new Thread(ft);   //FutureTask对象作为Thread对象的target创建新的线程
+                Thread thread = new Thread();   //FutureTask对象作为Thread对象的target创建新的线程
                 thread.start();                      //线程进入到就绪状态
             }
         }
