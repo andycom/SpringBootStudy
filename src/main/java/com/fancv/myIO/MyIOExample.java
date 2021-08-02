@@ -93,6 +93,7 @@ public class MyIOExample {
                     int s = fileInputStream.read(b);
 
                 }
+                fileInputStream.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
