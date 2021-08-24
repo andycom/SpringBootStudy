@@ -39,9 +39,11 @@ public class DemoReflective {
         try {
             Field fieldTag = cl.getDeclaredField("banch");
             fieldTag.setAccessible(true);
+
             String tag = (String) fieldTag.get(car);
 
             fieldTag.set(car,"长安");
+
             System.out.println("reflectPrivateField barnch = " + tag);
             System.out.println("reflectPrivateField barnch = " + car.getBanch());
         } catch (Exception e) {
