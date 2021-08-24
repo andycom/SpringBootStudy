@@ -130,6 +130,12 @@ public class MyHashMap {
         my.put("1", "dadfas");
 
         my.put("11", "dadfas");
+my.entrySet();
+my.keySet();
+my.values();
+
+
+
         add();
         System.out.println(my.get("1"));
 

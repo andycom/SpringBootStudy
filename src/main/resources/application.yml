@@ -1,12 +1,13 @@
 spring:
   application:
     name: springboot-study
+
   profiles:
     active: dev
-
 jasypt:
   encryptor:
     password: fancv.com
+
 
 
 

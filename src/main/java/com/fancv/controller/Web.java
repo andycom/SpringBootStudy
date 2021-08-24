@@ -56,10 +56,11 @@ public class Web {
     @GetMapping("a")
     @ApiOperation("测试MVC GET 参数校验")
     @ResponseBody
-    String testpararmer(@RequestParam("a") @Pattern(regexp = "[0-9]{11} ", message = "请输入正确的手机号码") String a, @NotBlank(message = "姓名不能为空") @RequestParam("name") String name, HttpServletRequest request) {
+    String testpararmer(@RequestParam("a") @Pattern(regexp = "[0-9]{11}", message = "测试jrebel 插件请输入正确的手机号码") String a, @NotBlank(message = "姓名不能为空") @RequestParam("name") String name, HttpServletRequest request) {
         // .....@NotNull(message = "name 不能为空") String name) {
         log.info(a);
         log.info(name);
+        log.info("代码怎么不需要，难道是需要空格 正则表达式的坑 ");
         return a;
     }
 

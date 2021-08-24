@@ -11,7 +11,7 @@ package com.fancv.Utils;
 import com.fancv.AnnotationDemo.PrintString;
 import com.fancv.AnnotationDemo.VoCheck;
 import com.fancv.DTO.CheckDto;
-import io.micrometer.core.instrument.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

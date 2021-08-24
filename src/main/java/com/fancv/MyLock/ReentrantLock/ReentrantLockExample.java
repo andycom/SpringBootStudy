@@ -9,6 +9,8 @@
 package com.fancv.MyLock.ReentrantLock;
 
 
+import org.hibernate.validator.internal.util.stereotypes.ThreadSafe;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -17,11 +19,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ReentrantLockExample {
     public static void main(String[] args) throws InterruptedException {
-        ExecutorService executorService = Executors.newFixedThreadPool(6);
+        ExecutorService executorService = Executors.newFixedThreadPool(9);
 
         ReentrantLockCounter counter = new ReentrantLockCounter();
 
-        executorService.submit(() -> counter.increment());
+     /*   executorService.submit(() -> counter.increment());*/
 
         for (int i = 0; i < 100; i++) {
             executorService.submit(() -> counter.increment());
@@ -39,16 +41,24 @@ public class ReentrantLockExample {
 /**
  *
  */
-class ReentrantLockCounter {
-    private final ReentrantLock lock = new ReentrantLock();
 
+class ReentrantLockCounter {
+
+    private final ReentrantLock lock = new ReentrantLock(true);
+
+    @ThreadSafe
     private int count = 0;
 
-    // Thread Safe Increment
+    /**
+     * // Thread Safe Increment
+     */
+
+
     public void increment() {
         lock.lock();
         try {
             count = count + 1;
+            System.out.println(Thread.currentThread().getName()+"count :" + count);
         } finally {
             lock.unlock();
         }
