@@ -24,6 +24,8 @@ public class MyThreadPool {
         }
         executor2.shutdown();
 
+        Executors.newFixedThreadPool(12);
+
     }
 }
 
